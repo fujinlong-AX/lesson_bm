@@ -67,7 +67,7 @@
 </head>
 <body>
     <div class="shop-list">
-        <div class="poi-item-wrapper">
+        <!-- <div class="poi-item-wrapper">
             <div class="poi-info-wrapper">
                 <div class="image-wrapper">
                     <div class="imgbox">
@@ -81,31 +81,82 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- <div id="map"></div> -->
     <script>
         const myLatitude = '27.81419',
-           myLongitude = '114.388578',
-           kfcLatitude = '27.800219',
-           kfcLongitude = '114.37775';
+           myLongitude = '114.388578';
+        //    kfcLatitude = '27.800219',
+        //    kfcLongitude = '114.37775';
+
+        const shops = [
+            {
+                name:'肯德基(润达店)',
+                pos:[114.37775,27.800219],
+                logo:'//p0.meituan.net/200.0/deal/607cffdccca7f4da09a2dddeedd31a8e49072.jpg@126_0_388_388a%7C267h_267w_2e_100Q'
+            },
+            {
+                name:'川锅一号火锅(润达店)',
+                pos:[114.377838,27.800387],
+                logo:'//p0.meituan.net/200.0/deal/b88ce5e84f2215dbc5a5aa74dbbe37e454825.jpg@270_0_900_900a%7C267h_267w_2e_90Q'
+            },
+            {
+                name:'古茗(鼓楼店)',
+                pos:[114.388844,27.799665],
+                logo:'//p0.meituan.net/200.0/deal/4281842b6929a42eca049f5d484a02a511942.jpg@54_0_300_300a%7C267h_267w_2e_90Q'
+            }
+        ];
+           var distance1;
            window.onload = function(){
-               function parseDistance(distance){
-                   if (distance < 1000){
-                       return parseInt(distance);
-                   } else{
-                       return (distance/1000).toFixed(1);
-                   }
-               }
+               const shopContainer = document.querySelector('.shop-list');
                const map = new BMap.Map();
             //    map.centerAndZoom("江西省宜春市袁州区巷口路34号",17);
                const myPoint = new BMap.Point(myLongitude,myLatitude);
-               const kfcPoint = new BMap.Point(kfcLongitude,kfcLatitude);
-               const distance = parseDistance(map.getDistance(myPoint,kfcPoint));
-                console.log(distance);
-                document.querySelector('.poi-name').innerHTML = '肯德基';
-                document.querySelector('.location').innerHTML = distance;
-                document.querySelector('.imgbox img').src = "//p0.meituan.net/deal/607cffdccca7f4da09a2dddeedd31a8e49072.jpg";
+               for(let i = 0; i < shops.length;i++){
+                   let shopPoint = new BMap.Point(shops[i].pos[0],shops[i].pos[1]);
+                   let distance = parseDistance(map.getDistance(myPoint,shopPoint));
+                   shopContainer.innerHTML += `
+                   <div class="poi-item-wrapper">
+                      <div class="poi-info-wrapper">
+                        <div class="image-wrapper">
+                            <div class="imgbox">
+                               <img src="${shops[i].logo}" alt="">
+                            </div>
+                            </div>
+                            <div class="poi-info">
+                                <div class="poi-name">${shops[i].name}</div>
+                                <div class="price-wrapper">
+                                    <div class="location">${distance1}</div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  `
+               }
+               function parseDistance(distance){
+                   if (distance < 1000){
+                   distance1 =(distance + "m");
+                       return parseInt(distance);
+                   
+                   } else{
+                    
+                       distance1 = ((distance/1000).toFixed(1) + "km");
+                     
+                   }
+               }
+            //    const map = new BMap.Map();
+            // //    map.centerAndZoom("江西省宜春市袁州区巷口路34号",17);
+            //    const myPoint = new BMap.Point(myLongitude,myLatitude);
+            //    const kfcPoint = new BMap.Point(kfcLongitude,kfcLatitude);
+            //    const distance = parseDistance(map.getDistance(myPoint,kfcPoint));
+            //     console.log(distance1);
+            //     document.querySelector('.poi-name').innerHTML = '肯德基(润达店)';
+            //     document.querySelector('.location').innerHTML = distance1;
+            //     document.querySelector('.imgbox img').src = "//p0.meituan.net/deal/607cffdccca7f4da09a2dddeedd31a8e49072.jpg";
            }
         </script>
 </body>
